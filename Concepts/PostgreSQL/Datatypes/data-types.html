@@ -4,40 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostgreSQL -Basics</title>
+    <title>PostgreSQL -DataTypes</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <p>First we will learn about some basics of PostgreSQL database</p>
-
-    <h1>Structure</h1>
-    <p>Postgres structure have server in it have multiple databases, Each database have multiple schemas And Each
-        schemas have multiple tables. </p>
-    <div id="pg-mermaid"></div>
-
-
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
-
-        mermaid.initialize({ startOnLoad: false });
-
-        const src = `graph TD
-      Server["Postgres server"] --> DB1["Database 1"]
-      Server --> DB2["Database 2"]
-      DB1 --> S1["Schema: public"]
-      DB1 --> S2["Schema: custom"]
-      S1 --> T1["Table"]
-      S1 --> T2["Table"]
-      S2 --> T3["Table"]`;
-
-        const { svg } = await mermaid.render('pg-svg', src);
-        document.getElementById('pg-mermaid').innerHTML = svg;
-    </script>
-
-    <h2>Table Schema</h2>
-    <img src="schema.png" alt="table schema">
-
+    
     <h2>Data Types</h2>
     <p>Data Types is describing your data is which type like number,character,Text etc.</p>
     <ol>
