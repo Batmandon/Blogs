@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtering - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Filtering Data</h2>
+        <p>This video tutorial expands on SQL filtering techniques within the WHERE clause, covering equality, inequalities, ranges, and best practices for using conjunctions.</p>
+
+        <div class="article">
+            <h2>Key Filtering Methods</h2>
+
+            <ul>
+                <li>
+                    <strong>Strict Equality:</strong> Uses the = operator (e.g., WHERE name = 'Aaron').
+                </li>
+
+                <li>
+                    <strong>Inequalities:</strong>
+                    <ul>
+                        <li>There are two valid syntaxes: the SQL standard <> and the programmer-centric !=.</li>
+                        <li>Both function identically to filter out specific values.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Ranges:</strong> Used to filter data between values using greater than (>), less than (<), and their inclusive counterparts (>=, <=).
+                    <ul>
+                        <li>These are commonly used with numeric columns (e.g., filtering IDs).</li>
+                        <li>They are also applicable to other data types, such as dates (e.g., created_at) and strings (e.g., filtering names alphabetically).</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Compound Filters and Parentheses</h2>
+
+            <ul>
+                <li>
+                    <strong>Conjunctions:</strong> Multiple conditions can be combined using AND and OR.
+                </li>
+
+                <li>
+                    <strong>Order of Operations:</strong>
+                    <ul>
+                        <li>The AND operator has higher precedence than OR. This creates "implicit parentheses" that can lead to logic errors if not carefully managed.</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Best Practice:</strong> The speaker strongly advocates for the liberal use of explicit parentheses when combining AND and OR.
+                    <ul>
+                        <li>
+                            <strong>Readability:</strong> Makes the query's intent immediately obvious to teammates.
+                        </li>
+                        <li>
+                            <strong>Accuracy:</strong> Prevents logical errors caused by misremembering operator precedence (e.g., ensuring an OR condition applies to the correct grouping).
+                        </li>
+                        <li>
+                            <strong>Performance:</strong> PostgreSQL compiles the query down effectively regardless of extra parentheses, so there is no performance penalty for adding them for clarity.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </article>
+
+</body>
+
+</html>

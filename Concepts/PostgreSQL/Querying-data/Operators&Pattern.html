@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operators & Pattern - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>SQL Operators & Pattern Matching</h2>
+        <p>This video tutorial expands on SQL filtering techniques, specifically focusing on handling lists of values
+            and pattern matching within text.</p>
+
+        <div class="article">
+            <h2>The IN Operator</h2>
+            <p>Instead of writing long, inefficient chains of OR statements (e.g., id=1 OR id=2 OR id=3), use the IN
+                operator.</p>
+
+            <ul>
+                <li>
+                    <strong>Syntax:</strong> WHERE id IN (1, 2, 3, 4)
+                </li>
+
+                <li>
+                    <strong>Benefits:</strong>
+                    <ul>
+                        <li>
+                            <strong>Ergonomics:</strong> It is easier to pass lists of IDs from application code
+                            directly into the query.
+                        </li>
+                        <li>
+                            <strong>Subqueries:</strong> You can nest a SELECT query inside the parentheses (e.g., WHERE
+                            id IN (SELECT id FROM...)). This allows PostgreSQL to optimize performance and avoids the
+                            "two round trips" anti-pattern where an application fetches IDs in one query and then
+                            requests data for those IDs in a second query.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Pattern Matching</h2>
+            <p>To filter text based on partial matches, use the LIKE operator with the % wildcard.</p>
+
+            <ul>
+                <li>
+                    <strong>Wildcard Usage:</strong>
+                    <ul>
+                        <li>'A%': Starts with "A".</li>
+                        <li>'%A': Ends with "A".</li>
+                        <li>'%A%': Contains "A".</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Case Sensitivity:</strong>
+                    <ul>
+                        <li>LIKE: Is case-sensitive. 'A%' will not match "aaron".</li>
+                        <li>ILIKE: Is case-insensitive. 'a%' will match both "Aaron" and "apple".</li>
+                    </ul>
+                </li>
+
+                <li>
+                    <strong>Strict Equality:</strong> Standard equality (=) is case-sensitive. To handle
+                    case-insensitive strict equality without ILIKE, you can use the LOWER() function (e.g., LOWER(name)
+                    = 'aaron'), though this requires specific indexing strategies for performance.
+                </li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Complex Query Construction</h2>
+            <p>The tutorial concludes by demonstrating how to combine these operators to build robust, readable queries
+                without needing excessive parentheses for OR logic. A complex filter might combine:</p>
+
+            <ul>
+                <li>IN for checking against a list of countries.</li>
+                <li>ILIKE for pattern matching names.</li>
+                <li>= for strict status checking.</li>
+                <li>>= and < for defining inclusive start and exclusive end date ranges.</li>
+            </ul>
+        </div>
+    </article>
+
+</body>
+
+</html>
