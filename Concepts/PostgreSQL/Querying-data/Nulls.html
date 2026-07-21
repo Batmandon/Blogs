@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nulls - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Handling NULL Values in PostgreSQL</h2>
+        <p>This page explains the core concepts of NULL in PostgreSQL, why it behaves differently from normal values,
+            and how to work with it safely in queries.</p>
+
+        <div class="article">
+            <h2>Core Concept: NULL is Unknown</h2>
+            <p>NULL is not a value, and it is not equivalent to false, an empty string, or zero. It represents an
+                unknown or missing value, like a "black box." This distinction is crucial for correct SQL logic.</p>
+        </div>
+
+        <div class="article">
+            <h2>Three-Valued Logic</h2>
+            <p>SQL uses a third logical state: <strong>Unknown</strong>. This changes how comparisons behave when NULL
+                is involved.</p>
+            <ul>
+                <li><strong>Standard logic:</strong> <code>5 = 5</code> is True; <code>5 = 10</code> is False.</li>
+                <li><strong>NULL logic:</strong> <code>5 = NULL</code> evaluates to <code>NULL</code> (Unknown).</li>
+                <li><strong>Null equality:</strong> <code>NULL = NULL</code> also evaluates to <code>NULL</code>,
+                    because two unknowns cannot be assumed equal.</li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Filtering NULL Values</h2>
+            <p>Queries only return rows when the <code>WHERE</code> clause evaluates to strictly True. Expressions that
+                resolve to <code>NULL</code> are treated as Unknown and do not pass the filter.</p>
+            <ul>
+                <li><strong>Incorrect:</strong> <code>WHERE phone = NULL</code> returns zero rows because the expression
+                    evaluates to <code>NULL</code>, not True.</li>
+                <li><strong>Correct:</strong> Use <code>IS NULL</code> or <code>IS NOT NULL</code> to filter rows with
+                    unknown values.</li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Handling NULLs with COALESCE</h2>
+            <p>The <code>COALESCE</code> function returns the first non-NULL value from its arguments, making it useful
+                for fallbacks and safe display values.</p>
+            <ul>
+                <li><strong>Functionality:</strong> It accepts multiple arguments and returns the first non-null value.
+                </li>
+                <li><strong>Usage:</strong> Use it to provide defaults, for example
+                    <code>COALESCE(phone, 'No phone given')</code> or <code>COALESCE(name, username)</code>.</li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Nulls in Arithmetic</h2>
+            <p>Any arithmetic operation involving NULL results in NULL. To prevent broken calculations, wrap nullable
+                values with <code>COALESCE</code> and provide a default.</p>
+            <ul>
+                <li>Example: <code>10 + NULL</code> yields <code>NULL</code>.</li>
+                <li>Safe replacement: <code>COALESCE(column, 0)</code>.</li>
+            </ul>
+        </div>
+    </article>
+
+</body>
+
+</html>
