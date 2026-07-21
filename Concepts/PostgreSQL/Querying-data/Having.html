@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Having - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Summary</h2>
+        <div class="article">
+            <p><strong>Filtering Groups vs. Rows:</strong> The <code>WHERE</code> clause cannot be used to filter
+                aggregate results (like a count) because <code>WHERE</code> is applied before grouping occurs to
+                eliminate individual rows.</p>
+            <p><strong>The HAVING Clause:</strong> To filter data after it has been grouped, the <code>HAVING</code>
+                clause must be used. It acts as a filter specifically for groups rather than rows.</p>
+            <h2>Syntax and Order of Operations</h2>
+            <ul>
+                <li><code>WHERE</code> clauses appear before <code>GROUP BY</code> and eliminate specific rows.</li>
+                <li><code>GROUP BY</code> organizes the remaining rows into groups.</li>
+                <li><code>HAVING</code> appears after <code>GROUP BY</code> and eliminates entire groups based on
+                    aggregate conditions (e.g., <code>HAVING COUNT(*) >= 50</code>).</li>
+            </ul>
+            <p><strong>PostgreSQL Specific Restriction:</strong> Unlike some other databases (like MySQL or SQLite),
+                PostgreSQL requires you to repeat the aggregate function in the <code>HAVING</code> clause. You cannot
+                refer to an aggregate by the alias created in the <code>SELECT</code> statement (e.g., you must use
+                <code>HAVING COUNT(*) > 50</code> rather than <code>HAVING order_count > 50</code>).</p>
+        </div>
+    </article>
+
+</body>
+
+</html>
