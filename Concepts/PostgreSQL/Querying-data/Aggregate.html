@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aggregate - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Counting Rows and Values</h2>
+        <div class="article">
+            <p><strong>COUNT(*)</strong>: This is the most efficient way to count the total number of rows in a table.
+                It is optimized by PostgreSQL to count rows as fast as possible without inspecting individual column
+                data.</p>
+            <p><strong>COUNT(column_name)</strong>: This counts only the non-null values within a specific column. For
+                example, <code>COUNT(id)</code> (a primary key) will match <code>COUNT(*)</code>, but
+                <code>COUNT(phone)</code> will result in a lower number if some rows have null phone numbers.</p>
+        </div>
+
+        <div class="article">
+            <h2>Aggregate Functions</h2>
+            <p>Beyond counting, SQL offers several aggregate functions including <code>SUM</code>, <code>AVG</code>,
+                <code>MIN</code>, and <code>MAX</code>. These functions automatically ignore <code>NULL</code> values
+                when calculating results, meaning you do not need to coalesce nulls manually before aggregation.</p>
+        </div>
+
+        <div class="article">
+            <h2>Grouping Data (<code>GROUP BY</code>)</h2>
+            <ul>
+                <li><strong>Basic Grouping:</strong> Instead of running aggregates over an entire table,
+                    <code>GROUP BY</code> allows you to calculate statistics for specific subsets of data (e.g., total
+                    orders per <code>customer_id</code>).</li>
+                <li><strong>Readability:</strong> When using <code>GROUP BY</code>, it is best practice to include the
+                    column being grouped in the <code>SELECT</code> statement so the output represents a readable report
+                    rather than just a list of numbers.</li>
+                <li><strong>Multiple Groups:</strong> You can group by multiple criteria simultaneously. For instance,
+                    you can group by <code>customer_id</code> and the year (using
+                    <code>EXTRACT(YEAR FROM created_at)</code>) to see how many orders a specific customer placed in a
+                    specific year.</li>
+                <li><strong>Filtering:</strong> You can still use <code>WHERE</code> clauses to filter data. The
+                    filtering occurs before the grouping takes place.</li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Common Grouping Errors</h2>
+            <p><strong>The Error:</strong> A common error is "column must appear in the GROUP BY clause or be used in an
+                aggregate function."</p>
+            <p><strong>The Cause:</strong> This occurs when you select a column that PostgreSQL is trying to "squash"
+                into a single row but hasn't been told how to handle.</p>
+            <p><strong>The Fix:</strong> You must either add the column to the <code>GROUP BY</code> list or wrap the
+                column in an aggregate function (like <code>SUM</code> or <code>COUNT</code>) so PostgreSQL knows how to
+                process the data.</p>
+        </div>
+    </article>
+
+</body>
+
+</html>
