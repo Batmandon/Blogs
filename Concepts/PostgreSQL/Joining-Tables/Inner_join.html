@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inner Join - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Inner Join</h2>
+
+        <div class="article">
+            <h2>Introduction to Data Relationships</h2>
+            <p>Real-world data is typically spread across multiple tables rather than confined to a single one.</p>
+            <p>To analyze this distributed data effectively, tables must be connected using joins.</p>
+            <p>The relationship between tables is established using specific keys:</p>
+            <ul>
+                <li><strong>Primary Key (PK):</strong> A unique identifier for a record within its own table (e.g., id in a users table).</li>
+                <li><strong>Foreign Key (FK):</strong> A field in one table that refers to the Primary Key of another table (e.g., user_id in a posts table).</li>
+                <li><strong>Naming Convention:</strong> It is standard practice to name the primary key id and the foreign key as the singular table name suffixed with _id (e.g., user_id).</li>
+            </ul>
+        </div>
+
+        <div class="article">
+            <h2>Understanding Inner Joins</h2>
+            <p><strong>Purpose:</strong> An INNER JOIN connects two tables and returns only the rows where there is a match in both tables.</p>
+            <p><strong>Venn Diagram Visualization:</strong> If one circle represents users and another represents posts, an inner join returns only the overlapping section in the middle. It excludes:</p>
+            <ul>
+                <li>Users who have made no posts.</li>
+                <li>"Orphaned" posts that have no associated user.</li>
+            </ul>
+            <p><strong>Default Behavior:</strong> The INNER JOIN is the default join type in SQL. Writing just JOIN functions the same as INNER JOIN, though being explicit is often preferred for clarity.</p>
+        </div>
+
+        <div class="article">
+            <h2>SQL Syntax and Best Practices</h2>
+            <p><strong>Basic Syntax:</strong></p>
+            <pre><code>SELECT columns
+FROM table_A
+INNER JOIN table_B
+ON table_A.foreign_key = table_B.primary_key;</code></pre>
+            <p><strong>Ambiguity:</strong> PostgreSQL cannot automatically determine how tables relate; you must explicitly define the link using the ON clause (e.g., ON posts.user_id = users.id).</p>
+            <p><strong>Column Prefixes:</strong> When selecting columns that exist in multiple tables (like id or created_at), you must prefix the column name with the table name to avoid "ambiguous column" errors (e.g., SELECT users.name, posts.title).</p>
+            <p><strong>Aliasing:</strong> To save time typing long table names, you can use aliases (e.g., FROM users u JOIN posts p ON p.user_id = u.id).</p>
+            <p><strong>Filtering:</strong> All standard filtering techniques (like WHERE clauses) can be applied to joined data to further refine the results (e.g., filtering for posts created in the last 30 days).</p>
+        </div>
+    </article>
+
+</body>
+
+</html>
