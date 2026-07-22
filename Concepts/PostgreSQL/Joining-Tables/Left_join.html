@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Left Join - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Left Join</h2>
+
+        <div class="article">
+            <h2>Summary</h2>
+            <p>Here is a summary of the video transcript regarding SQL Left Joins:</p>
+
+            <h3>Concept and Purpose</h3>
+            <ul>
+                <li>A Left Join returns all rows from the left table and brings in related rows from the right table
+                    when they exist.</li>
+                <li>If there is no matching row in the right table, the query still returns the left-table row with NULL
+                    values for the right-table columns.</li>
+            </ul>
+
+            <h3>Syntax and Structure</h3>
+            <ul>
+                <li>Left Joins explicitly use the <code>LEFT JOIN</code> keyword.</li>
+                <li>The table listed first in the <code>FROM</code> clause is the left table, and the join works outward
+                    to the right table.</li>
+                <li>Example: <code>SELECT * FROM users LEFT JOIN posts ON users.id = posts.user_id</code>. Here,
+                    <code>users</code> is the left table.</li>
+                <li>The <code>ON</code> clause specifies how the tables are related, typically by matching primary and
+                    foreign keys.</li>
+            </ul>
+
+            <h3>Key Use Cases Demonstrated</h3>
+            <ul>
+                <li>Retrieving all primary records: You can list every user, regardless of whether they have written a
+                    post.</li>
+                <li>If a user has written multiple posts, the user data repeats for each post row.</li>
+                <li>Finding orphaned or missing data:
+                    <ul>
+                        <li>Users without posts: filter with <code>WHERE posts.id IS NULL</code> to isolate users who
+                            have not contributed content.</li>
+                        <li>Posts without users: flip the order and use <code>WHERE users.id IS NULL</code> to find
+                            posts that lack an associated user.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Best Practices</h3>
+            <ul>
+                <li>While the order of operands in the <code>ON</code> clause does not strictly matter, it is common to
+                    list the left table's column first.</li>
+                <li>Filtering out <code>NULL</code> values in a Left Join often replicates an Inner Join, showing how
+                    SQL can express the same result in different ways.</li>
+            </ul>
+        </div>
+    </article>
+
+</body>
+
+</html>
