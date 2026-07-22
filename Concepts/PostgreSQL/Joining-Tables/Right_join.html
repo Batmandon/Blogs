@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Join - PostgreSQL</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <article>
+        <h2>Right Join and Other Join Types</h2>
+
+        <div class="article">
+            <h2>Summary</h2>
+            <ul>
+                <li>
+                    <strong>Right Joins:</strong> A Right Join returns all rows from the right table and the matching rows
+                    from the left table. It is functionally the mirror image of a Left Join. Because the same result can
+                    be achieved by flipping the table order in a Left Join, Right Joins are often unnecessary and less
+                    intuitive for many developers.
+                </li>
+                <li>
+                    <strong>Full Outer Joins:</strong> A Full Outer Join returns every row from both tables, including
+                    matching rows and rows that exist only in one table. For example, joining users and posts would
+                    include valid user-post matches, users with no posts, and posts with no matching user. This can feel
+                    like combining three different datasets instead of producing a focused result.
+                </li>
+                <li>
+                    <strong>Cross Joins:</strong> A Cross Join produces every combination of rows from both tables. It is
+                    mentioned as an advanced or esoteric join type and is not typically used in everyday SQL queries.
+                </li>
+                <li>
+                    <strong>Key Takeaway:</strong> Inner Joins and Left Joins are the workhorses of SQL. They cover the vast
+                    majority of common use cases, while Right Joins and Full Outer Joins are useful only in specific
+                    scenarios.
+                </li>
+            </ul>
+        </div>
+    </article>
+
+</body>
+
+</html>
