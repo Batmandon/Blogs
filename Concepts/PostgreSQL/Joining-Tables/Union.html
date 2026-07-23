@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>JOIN vs UNION</title>
+	<link rel="stylesheet" href="../style.css" />
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding:28px; line-height:1.6; }
+		h1 { margin-bottom:0.2rem }
+		ul { margin-top:0.6rem }
+		code { background:#fffbfb; padding:0.12rem 0.28rem; border-radius:4px }
+		pre.sql { background:#000000; color:#757512; padding:0.8rem; border-radius:6px; overflow:auto }
+	</style>
+</head>
+<body>
+	<h1>Comparison of <code>JOIN</code> vs. <code>UNION</code></h1>
+
+	<p>
+		<strong><code>JOIN</code>s</strong> combine tables side-by-side, producing wider rows that include columns from both sources.
+		<strong><code>UNION</code>s</strong> stack result sets vertically, producing more rows by appending one result set under another.
+	</p>
+
+	<h2>Use Case: Archive Tables</h2>
+	<p>
+		It's common to split data into "current" and "archive" tables (for example <code>current_employees</code> and
+		<code>former_employees</code>) to keep the active dataset small. A <code>UNION</code> lets you query both tables
+		together to produce a unified list (for example, names and emails for all employees).
+	</p>
+
+	<h2>Rules for Using <code>UNION</code></h2>
+	<ol>
+		<li><strong>Column Count:</strong> Each query in the union must return the exact same number of columns.</li>
+		<li><strong>Data Types:</strong> Columns in the same ordinal position must be compatible (you can't stack an integer on top of a string).</li>
+		<li><strong>Literals:</strong> Use literals to satisfy column counts or to add metadata (e.g., <code>SELECT name, email, 'current' AS type</code>).</li>
+	</ol>
+
+	<h2>Handling Duplicates (<code>UNION</code> vs. <code>UNION ALL</code>)</h2>
+	<ul>
+		<li><strong><code>UNION</code> (default):</strong> Removes duplicate rows, which incurs additional work (sorting/hashing) and a performance cost.</li>
+		<li><strong><code>UNION ALL</code>:</strong> Returns all rows including duplicates. It is faster because it skips duplicate elimination.</li>
+	</ul>
+
+	<p><strong>Performance tip:</strong> Prefer <code>UNION ALL</code> when you know duplicates are impossible from business logic
+	or when you explicitly want to retain duplicates. Use <code>UNION</code> only when deduplication is required.</p>
+
+	<h2>Example</h2>
+	<pre class="sql"><code>SELECT name, email, 'current' AS type FROM current_employees
+UNION ALL
+SELECT name, email, 'former' AS type FROM former_employees;</code></pre>
+
+</body>
+</html>
