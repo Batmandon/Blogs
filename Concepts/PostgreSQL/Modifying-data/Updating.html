@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Updating Data — Safety Tips</title>
+	<link rel="stylesheet" href="../style.css" />
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding:28px; line-height:1.6 }
+		h1 { margin-bottom:0.2rem }
+		ol { margin-top:0.6rem }
+		code { background:#f4f4f4; padding:0.12rem 0.28rem; border-radius:4px }
+		pre.sql { background:#2b2b2b; color:#f8f8f2; padding:0.8rem; border-radius:6px; overflow:auto }
+	</style>
+</head>
+<body>
+	<h1>Summary</h1>
+
+	<p><strong>The Danger of Unfiltered Updates</strong> — Running an <code>UPDATE</code> without a <code>WHERE</code>
+	clause will modify every row in the target table. Writing the update expression before verifying the filter creates a
+	"dangling update" risk that can accidentally overwrite large amounts of data (for example, setting every user's email
+	to the same value).</p>
+
+	<h2>The Golden Rule: Select, Then Update</h2>
+	<p>Adopt a consistent workflow to avoid accidental mass updates:</p>
+	<ol>
+		<li><strong>Write a <code>SELECT</code> statement:</strong> Compose a <code>SELECT</code> using the exact <code>WHERE</code>
+		clause you intend to use for the update to preview affected rows.</li>
+		<li><strong>Verify results:</strong> Run the <code>SELECT</code> and confirm the returned rows match expectations. If a query
+		intended for one row returns many, fix the logic before proceeding.</li>
+		<li><strong>Convert to <code>UPDATE</code>:</strong> After verification, replace the <code>SELECT</code> with an <code>UPDATE</code>,
+		keeping the vetted <code>WHERE</code> clause intact.</li>
+	</ol>
+
+	<h2>Additional Tips</h2>
+	<ul>
+		<li><strong>Complex logic:</strong> This practice is especially important with complex conditions (dates, intervals, multiple booleans).</li>
+		<li><strong><code>RETURNING</code> clause:</strong> PostgreSQL supports <code>RETURNING *</code> on <code>UPDATE</code> to see modified rows immediately.</li>
+		<li><strong>Consistency:</strong> Apply this workflow even for simple updates — complacency causes mistakes.</li>
+	</ul>
+
+	<h2>Example</h2>
+	<pre class="sql"><code>-- verify
+SELECT * FROM users WHERE id = 123;
+
+-- update after verification
+UPDATE users
+SET email = 'new@example.com'
+WHERE id = 123
+RETURNING *;</code></pre>
+
+</body>
+</html>
