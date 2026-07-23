@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Orphaned Data — JOIN behavior</title>
+	<link rel="stylesheet" href="../style.css" />
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height:1.6; padding:28px; }
+		h1 { margin-bottom:0.2rem }
+		.lead { margin-top:0; color:#222 }
+		ul { margin-top:1rem }
+		code { background:#f4f4f4; padding:0.15rem 0.3rem; border-radius:4px; }
+	</style>
+</head>
+<body>
+	<h1>Summary</h1>
+	<p class="lead">
+		Warning Against Premature Use of <code>INNER JOIN</code>. Be careful when defaulting to
+		<code>INNER JOIN</code> for tasks like displaying posts with their authors. An inner join links data
+		correctly but will exclude "orphaned" records—for example, posts whose associated user account has
+		been deleted (such as after a GDPR request).
+	</p>
+
+	<h2>Key Takeaways and Recommendations</h2>
+	<ul>
+		<li><strong>Clarify Business Requirements:</strong> Decide whether the query should show only complete records
+			(post + author) or all primary records (posts) even when related secondary data is missing.</li>
+
+		<li><strong>The Risk of <code>INNER JOIN</code>:</strong> Using an inner join can make valid content disappear from
+			the front end if related rows are removed or changed.</li>
+
+		<li><strong>Use <code>LEFT JOIN</code> for Completeness:</strong> To ensure every primary record is returned,
+			prefer <code>LEFT JOIN</code>. This returns every post even when the user id is null or the user row is missing.</li>
+
+		<li><strong>Handle Nulls with <code>COALESCE</code>:</strong> When using a left join, author fields may be null.
+			Replace nulls with a friendly placeholder using <code>COALESCE</code>, for example
+			<code>COALESCE(users.name, 'Unknown Author')</code>, to avoid display errors while preserving data integrity.</li>
+	</ul>
+
+</body>
+</html>
