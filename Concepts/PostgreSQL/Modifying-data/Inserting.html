@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Inserting Data — Best Practices</title>
+	<link rel="stylesheet" href="../style.css" />
+	<style>
+		body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; padding:28px; line-height:1.6 }
+		h1 { margin-bottom:0.2rem }
+		ul { margin-top:0.6rem }
+		code { background:#f4f4f4; padding:0.12rem 0.28rem; border-radius:4px }
+		pre.sql { background:#2b2b2b; color:#f8f8f2; padding:0.8rem; border-radius:6px; overflow:auto }
+	</style>
+</head>
+<body>
+	<h1>Inserting Data</h1>
+
+	<h2>Basic Insert Syntax</h2>
+	<p>The standard SQL form for adding a row is <code>INSERT INTO table (columns) VALUES (values)</code>.</p>
+
+	<h2>Network Optimization (Round Trips)</h2>
+	<p>Every interaction with the database incurs a network round-trip latency. Keep application and database
+	close (same region/availability zone) when possible to reduce latency.</p>
+
+	<h2>Bulk Inserts</h2>
+	<p>Rather than issuing many single-row <code>INSERT</code> statements (each causing a round-trip),
+	combine rows into one statement:</p>
+	<pre class="sql"><code>INSERT INTO table (col1, col2) VALUES
+	('row1col1', 'row1col2'),
+	('row2col1', 'row2col2'),
+	('row3col1', 'row3col2');</code></pre>
+	<p>This sends a single request and receives a single response, improving throughput.</p>
+
+	<h2>Handling Default Values</h2>
+	<p>PostgreSQL applies column defaults automatically (for example serial/identity IDs or
+	timestamp defaults like <code>created_at</code>), so only provide the columns you need to set.</p>
+
+	<h2>The <code>RETURNING</code> Clause</h2>
+	<p>PostgreSQL supports returning data from the inserted row(s) without a separate <code>SELECT</code> call.
+	Append <code>RETURNING *</code> to get all columns, or list specific columns:</p>
+	<pre class="sql"><code>INSERT INTO users (name, email)
+VALUES ('Alice','alice@example.com')
+RETURNING id, email;</code></pre>
+	<p>This reduces round trips by combining insertion and retrieval into a single operation.</p>
+
+</body>
+</html>
