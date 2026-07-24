@@ -36,6 +36,18 @@
 		<li><strong>Handle Nulls with <code>COALESCE</code>:</strong> When using a left join, author fields may be null.
 			Replace nulls with a friendly placeholder using <code>COALESCE</code>, for example
 			<code>COALESCE(users.name, 'Unknown Author')</code>, to avoid display errors while preserving data integrity.</li>
+
+		<li><strong><code>COALESCE</code> Does Not Change Real Data:</strong> Using <code>COALESCE</code> only
+			changes how missing values are displayed. It does not change the data, and checking
+			<code>IS NULL</code> after applying <code>COALESCE</code> will give you <code>NULL</code> into an
+			<code>INNER JOIN</code>.</li>
+
+		<li><strong><code>COALESCE</code> Is Only for Display:</strong> If you replace a missing value with a fallback
+			value using <code>COALESCE</code>, that fallback is only shown to the user. The actual column value remains
+			<code>NULL</code>, so any later <code>IS NULL</code> check will still treat it as missing.</li>
+
+		<li><strong>Types Must Match:</strong> If the original column is an integer and you want to return a text fallback,
+			cast the column first, for example <code>COALESCE(orders.id::text, 'No order')</code>.</li>
 	</ul>
 
 </body>
